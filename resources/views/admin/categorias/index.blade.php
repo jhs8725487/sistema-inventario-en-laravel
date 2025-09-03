@@ -46,10 +46,51 @@
     <tbody>
           @foreach ($categorias as $categoria)
             <tr>
-                <td>{{ $categoria->id }}</td>
+                <td style="text-align: center; font-weight: bold; font-size: 16px;">
+    {{ $loop->iteration }}
+</td>
                 <td>{{ $categoria->nombre }}</td>
                 <td>{{ $categoria->descripcion }}</td>
-                <td>
+                <td style="text-align: center">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+  <a href="{{ url('/admin/categorias/' . $categoria->id) }}" class="btn btn-info">
+  <i class="fas fa-eye"></i>Ver
+</a>
+
+    <a href="{{ url('/admin/categorias/' . $categoria->id . '/edit') }}" class="btn btn-success">
+        <i class="fas fa-pencil-alt"></i> Editar
+    </a>
+  <form action="{{ url('/admin/categorias/' . $categoria->id) }}" id="miformulario{{ $categoria->id }}" method="POST" style="display:inline-block;">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="btn btn-danger" onclick="confirmarEliminacion{{ $categoria->id }}(event)">
+        <i class="fas fa-trash-alt"></i> Eliminar
+    </button>
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+function confirmarEliminacion{{ $categoria->id }}(event) {
+    event.preventDefault(); // Evita que el form se envíe directo
+
+    Swal.fire({
+        title: "¿Estás seguro?",
+        text: "¡No podrás revertir esto!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, eliminar!",
+        cancelButtonText: "Cancelar"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('miformulario{{ $categoria->id }}').submit();
+        }
+    });
+}
+</script>
+</div>
 
                 </td>
             </tr>

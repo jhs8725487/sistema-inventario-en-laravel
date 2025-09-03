@@ -32,3 +32,20 @@ Route::get('/admin/categorias/create', [App\Http\Controllers\CategoriaController
 
 Route::post('/admin/categorias/create', [App\Http\Controllers\CategoriaController::class, 'store'])->name('categorias.store');
 
+Route::get('/admin/categorias/{id}', [App\Http\Controllers\CategoriaController::class, 'show'])
+    ->name('categorias.show')
+    ->middleware(['auth']);
+
+Route::get('/admin/categorias/{id}/edit', [App\Http\Controllers\CategoriaController::class, 'edit'])
+    ->name('categorias.edit')
+    ->middleware(['auth']);
+
+Route::put('/admin/categorias/{id}', [App\Http\Controllers\CategoriaController::class, 'update'])
+    ->name('categorias.update')
+    ->middleware(['auth']);
+
+Route::delete('/admin/categorias/{id}', [App\Http\Controllers\CategoriaController::class, 'destroy'])
+    ->name('categorias.destroy')
+    ->middleware(['auth']);
+
+

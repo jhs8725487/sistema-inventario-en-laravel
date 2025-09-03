@@ -66,32 +66,61 @@ class CategoriaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Categoria $categoria)
+    public function show($id)
     {
         //
+        $categoria = Categoria::findOrFail($id);
+        return view('admin.categorias.show', compact('categoria'));
+        //return response()->json($categoria);
+        //echo $id;
     }
+    
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Categoria $categoria)
+    public function edit($id)
     {
-        //
+        $categoria = Categoria::findOrFail($id);
+        return view('admin.categorias.edit', compact('categoria'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Categoria $categoria)
+    public function update(Request $request, $id)
     {
-        //
+           $request->validate([
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'nullable|string|max:1000',
+        ]);
+
+        $categoria = Categoria::findOrFail($id);
+        $categoria->nombre = $request->nombre;
+        $categoria->descripcion = $request->descripcion;
+        $categoria->save();
+
+        return redirect()
+    ->route('categoria.index')
+    ->with('icono', 'success')   // tipo del mensaje (success, error, warning, info)
+    ->with('message', 'Categoría actualizada correctamente.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Categoria $categoria)
+    public function destroy($id)
     {
-        //
+          // Buscar la categoría por ID, si no existe lanza error 404
+        $categoria = Categoria::findOrFail($id);
+
+        // Eliminar la categoría
+        $categoria->delete();
+
+        // Redirigir al listado con mensaje de éxito
+          return redirect()
+        ->route('categoria.index')
+        ->with('icono', 'success')  // tipo de mensaje: success, error, warning, info
+        ->with('message', 'Categoría eliminada correctamente.');
     }
 }
