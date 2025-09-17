@@ -310,12 +310,31 @@ return [
        
        
         ['header' => 'Menu'],
+
+        [
+            'text' => 'Sucursales',
+            'url' => 'admin/sucursales',
+            'icon' => 'fas fa-fw fa-building',
+            'classes' => 'bg-blue text-white',
+        ],
+
+
+
         [
             'text' => 'Categorias',
             'url' => 'admin/categorias',
             'icon' => 'fas fa-fw fa-list',
             'classes' => 'bg-blue text-white',
         ],
+
+        [
+            'text' => 'Productos',
+            'url'  => 'admin/productos',
+            'icon' => 'fas fa-fw fa-box',
+            'classes' => 'bg-blue text-white',
+        ],
+
+        
     ],
 
     /*
