@@ -1,6 +1,7 @@
 @extends('adminlte::page')
 
 @section('content_header')
+
  <nav aria-label="breadcrumb" style="font-size:18pt">
   <ol class="breadcrumb">
     <li class="breadcrumb-item">

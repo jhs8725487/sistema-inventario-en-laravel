@@ -158,6 +158,9 @@
 </div>
 @stop
 
+@section('css')
+@stop
+
 @section('js')
 <script>
 function previewImage(event) {
