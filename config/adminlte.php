@@ -337,6 +337,31 @@ return [
             'active'  => ['admin/productos*'],
         ],
 
+        [
+            'text' => 'Clientes',
+            'url' => 'admin/clientes',
+            'icon' => 'fas fa-fw fa-users', // ícono de usuarios
+            'classes' => 'bg-blue text-white', // colores a tu gusto
+            'active' => ['admin/clientes*'],   // para marcar activo el menú cuando se acceda
+        ],
+
+        [
+            'text'    => 'Compras',
+            'url'     => 'admin/compras',
+            'icon'    => 'fas fa-fw fa-shopping-cart', // ícono de carrito de compras
+            'classes' => 'bg-blue text-white',         // colores a tu gusto
+            'active'  => ['admin/compras*'],           // marcar activo el menú al acceder
+        ],
+
+        [
+            'text'    => 'Lotes',
+            'url'     => 'admin/lotes',
+            'icon'    => 'fas fa-fw fa-boxes', // ícono de cajas (representa lotes)
+            'classes' => 'bg-blue text-white', // puedes cambiar los colores si quieres
+            'active'  => ['admin/lotes*'], // marcar activo el menú al acceder a cualquier ruta de lotes
+        ],
+
+
         
     ],
 

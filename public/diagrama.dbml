@@ -11,7 +11,7 @@ Table Sucursales {
 
 
 
-Table Categories {
+Table Categorias {
 
 id int [pk, increment]
 nombre varchar (100) [not null]
@@ -32,6 +32,82 @@ Table Productos {
   stock_maximo int [default: 0]
   unidad_medida varchar(50) [not null]
   estado boolean [default: true]
+}
+
+Table Lotes {
+    id int [pk, increment]
+    producto_id int [ref: > Productos.id]   // relación con Productos
+    cliente_id int [ref: > Clientes.id]
+    codigo varchar(50) [not null, unique]
+    cantidad_inicial int [not null]
+    cantidad_actual int [not null]
+    fecha_entrada date
+    fecha_vencimiento date
+    precio_compra decimal(10, 2) [not null]   // agregado: precio de compra por lote
+    estado boolean [default: true]
+    created_at timestamp
+    updated_at timestamp
+}
+
+Table Clientes {
+    id int [pk, increment]
+    nombre varchar(100) [not null]
+    apellido varchar(100) [not null]
+    ci varchar(20) [unique]  // cédula de identidad o documento
+    telefono varchar(20)
+    email varchar(100)
+    direccion varchar(255)
+    activo boolean [default: true]
+    created_at timestamp
+    updated_at timestamp
+}
+
+Table Compras {
+    id int [pk, increment]
+    cliente_id int [ref: > Clientes.id]     // relación con el cliente
+    fecha datetime [default: 'current_timestamp']
+    total decimal(10, 2) [not null]
+    estado varchar(50) [default: 'pendiente']
+    observaciones text
+}
+
+Table DetalleCompras {
+    id int [pk, increment]
+    compra_id int [ref: > Compras.id]
+    producto_id int [ref: > Productos.id]
+    lote_id int [ref: > Lotes.id]
+    cantidad int [not null]
+    precio_unitario decimal(10, 2) [not null]
+    subtotal decimal(10, 2) [not null]
+    created_at timestamp
+    updated_at timestamp
+}
+
+Table InventarioSucursalLote {
+    id int [pk, increment]
+    producto_id int [ref: > Productos.id]
+    sucursal_id int [ref: > Sucursales.id]
+    lote_id int [ref: > Lotes.id]
+
+    cantidad_en_sucursal int [default: 0, not null]
+
+    created_at timestamp
+    updated_at timestamp
+}
+
+Table MovimientosInventario {
+    id int [pk, increment]
+    producto_id int [ref: > Productos.id]
+    lote_id int [ref: > Lotes.id]
+    sucursal_id int [ref: > Sucursales.id]
+
+    tipo_movimiento varchar(50) [not null, default: 'entrada'] // entrada, salida, ajuste
+    cantidad int [not null]
+    fecha datetime [default: 'current_timestamp']
+    descripcion text
+
+    created_at timestamp
+    updated_at timestamp
 }
 
 

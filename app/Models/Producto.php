@@ -32,4 +32,17 @@ class Producto extends Model
         return $this->belongsTo(Categoria::class);
     }
 
+      /**
+     * Relación: un producto puede tener muchos lotes
+     */
+    public function lotes()
+    {
+        return $this->hasMany(Lote::class);
+    }
+
+    public function detalleCompras()
+    {
+        return $this->hasMany(DetalleCompra::class);
+    }
+
 }

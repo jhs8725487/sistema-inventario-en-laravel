@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Producto;
 use Illuminate\Http\Request;
 use App\Models\Categoria;     // <-- importar modelo
+use Illuminate\Support\Facades\Storage;
 
 class ProductoController extends Controller
 {
@@ -79,32 +80,73 @@ class ProductoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Producto $producto)
+    public function show($id)
     {
-        //
+        $producto = Producto::with('categoria')->findOrFail($id);
+        return view('admin.productos.show', compact('producto'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Producto $producto)
+    public function edit($id)
     {
-        //
+        $producto   = Producto::findOrFail($id);
+        $categorias = Categoria::all();
+        return view('admin.productos.edit', compact('producto', 'categorias'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Producto $producto)
+    public function update(Request $request, $id)
     {
-        //
+        $producto = Producto::findOrFail($id);
+        $data = $request->validate([
+            'categoria_id' => 'required|exists:categorias,id',
+            'codigo'       => 'required',
+            'nombre'       => 'required',
+            'descripcion'  => 'required',
+            'precio_compra'=> 'required|numeric',
+            'precio_venta' => 'required|numeric',
+            'stock_minimo' => 'required|integer',
+            'stock_maximo' => 'required|integer',
+            'unidad_medida'=> 'required',
+            'estado'       => 'required|boolean',
+            'imagen'       => 'nullable|image|max:2048',
+        ]);
+
+        if ($request->hasFile('imagen')) {
+            $data['imagen'] = $request->file('imagen')->store('productos', 'public');
+        }
+
+        $producto->update($data);
+         return redirect()
+        ->route('productos.index')
+        ->with('icono', 'success')              // tipo de notificación
+        ->with('message', 'Producto actualizado correctamente.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Producto $producto)
+    public function destroy($id)
     {
-        //
+        // Buscar el producto o lanzar 404
+        $producto = Producto::findOrFail($id);
+
+        // (Opcional) Si quieres eliminar la imagen del almacenamiento
+        if ($producto->imagen) {
+             Storage::disk('public')->delete($producto->imagen);
+        }
+
+        // Eliminar el registro
+        $producto->delete();
+
+        // Redirigir con mensaje de éxito
+        return redirect()
+            ->route('productos.index')
+            ->with('icono', 'success')
+            ->with('message', 'Producto eliminado correctamente.');
     }
 }
