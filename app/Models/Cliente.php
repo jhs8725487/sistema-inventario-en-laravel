@@ -33,4 +33,10 @@ class Cliente extends Model
     {
         return $this->nombre . ' ' . $this->apellido;
     }
+
+    // 🔹 Un cliente puede tener muchos préstamos
+    public function prestamos()
+    {
+        return $this->hasMany(Prestamo::class);
+    }
 }

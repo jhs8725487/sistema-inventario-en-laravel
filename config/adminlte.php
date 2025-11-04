@@ -361,6 +361,14 @@ return [
             'active'  => ['admin/lotes*'], // marcar activo el menú al acceder a cualquier ruta de lotes
         ],
 
+        [
+            'text'    => 'Préstamos',
+            'url'     => 'admin/prestamos',
+            'icon'    => 'fas fa-hand-holding-usd', // ícono de préstamo/dinero
+            'classes' => 'bg-blue text-white',
+            'active'  => ['admin/prestamos*'],
+        ],
+
 
         
     ],

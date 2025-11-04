@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Producto;
 use Illuminate\Http\Request;
+use App\Models\Cliente;
 use App\Models\Categoria;     // <-- importar modelo
 use Illuminate\Support\Facades\Storage;
 

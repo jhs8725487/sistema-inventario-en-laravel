@@ -111,4 +111,42 @@ Table MovimientosInventario {
 }
 
 
+Table Prestamos {
+    id int [pk, increment]
+    cliente_id int [ref: > Clientes.id]
+    compra_id int [ref: > Compras.id]  // opcional: si el préstamo está ligado a una venta específica
+    fecha_prestamo datetime [default: 'current_timestamp']
+    monto_total decimal(10,2) [not null]
+    monto_pagado decimal(10,2) [default: 0.00]
+    saldo_pendiente decimal(10,2) [not null]
+    numero_cuotas int [not null]
+    interes decimal(5,2) [default: 0.00]
+    estado varchar(50) [default: 'pendiente']  // pendiente, pagado, vencido
+    observaciones text
+    created_at timestamp
+    updated_at timestamp
+}
+
+Table Cuotas {
+    id int [pk, increment]
+    prestamo_id int [ref: > Prestamos.id]
+    numero_cuota int [not null]
+    fecha_vencimiento date [not null]
+    monto_cuota decimal(10,2) [not null]
+    monto_pagado decimal(10,2) [default: 0.00]
+    estado varchar(50) [default: 'pendiente']  // pendiente, pagado, vencido
+    created_at timestamp
+    updated_at timestamp
+}
+
+Table Pagos {
+    id int [pk, increment]
+    cuota_id int [ref: > Cuotas.id]
+    fecha_pago datetime [default: 'current_timestamp']
+    monto_pagado decimal(10,2) [not null]
+    metodo_pago varchar(50)  // efectivo, transferencia, etc.
+    observaciones text
+    created_at timestamp
+    updated_at timestamp
+}
 
